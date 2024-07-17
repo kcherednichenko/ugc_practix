@@ -24,7 +24,7 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
     - name: wemake-python-styleguide
-      uses: wemake-services/wemake-python-styleguide
+      uses: wemake-services/wemake-python-styleguide@latest
 
     - name: mypy action
       uses: sasanquaneuf/mypy-github-action@releases/v1.3
