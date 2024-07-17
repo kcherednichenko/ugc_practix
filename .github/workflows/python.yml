@@ -25,10 +25,6 @@ jobs:
 
     - name: wemake-python-styleguide
       uses: wemake-services/wemake-python-styleguide
-      run: |
-        flake8 .
 
     - name: mypy action
       uses: sasanquaneuf/mypy-github-action@releases/v1.3
-      run: |
-        mypy .
