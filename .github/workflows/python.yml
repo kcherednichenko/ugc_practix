@@ -39,3 +39,10 @@ jobs:
     - name: Lint with mypy
       run: |
         mypy .
+
+    - uses: yanzay/notify-telegram@v0.1.0
+      if: always()
+      with:
+        chat: ${{ secrets.chat_id }}
+        token: ${{ secrets.token }}
+        status: ${{ job.status }}
