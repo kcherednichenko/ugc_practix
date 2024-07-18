@@ -1,4 +1,4 @@
-"""New module."""
+"""New module"""
 
 
 def count():
