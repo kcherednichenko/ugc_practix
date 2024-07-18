@@ -4,4 +4,4 @@
 def count():
     """Count numbers."""
     number = 7
-    number += 1
+    number += 2
