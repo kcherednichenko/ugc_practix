@@ -1,0 +1,10 @@
+# Enviroment
+env/
+.env
+
+# IDE
+.vscode
+
+__pycache__
+
+service/
