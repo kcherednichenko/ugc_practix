@@ -1,17 +1,16 @@
 name: Python application
 
 on:
-  push:
-    branches: [ "feature/ci_cd" ]
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - 'main'
     
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [ '3.9' ]
+        python-version: [ '3.9', '3.10' ]
 
     steps:
     - uses: actions/checkout@v4.1.7
