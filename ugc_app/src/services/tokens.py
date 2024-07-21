@@ -10,7 +10,7 @@ from models.users import User
 _ALGORITHM = "RS256"
 
 
-def get_user_from_token(token: str) -> User:
+def get_user_from_token(token: str) -> User | None:
     try:
         payload = _decode_token(token)
     except (jwt.exceptions.InvalidTokenError, ValidationError) as e:
@@ -18,7 +18,7 @@ def get_user_from_token(token: str) -> User:
     return User(id=payload.user_id, roles=payload.roles)
 
 
-def _decode_token(token: str) -> User:
+def _decode_token(token: str) -> "_TokenPayload":
     return _TokenPayload(**jwt.decode(token, settings.jwt_public_key, algorithms=[_ALGORITHM]))
 
 

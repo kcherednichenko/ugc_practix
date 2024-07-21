@@ -10,8 +10,7 @@ class Settings(BaseSettings):
     mongo_port: int = 27017
     mongo_db: str = "ugc"
 
-    project_name: str = "ugc"
     jwt_public_key: bytes
 
 
-settings = Settings()
+settings = Settings()  # type: ignore[call-arg]

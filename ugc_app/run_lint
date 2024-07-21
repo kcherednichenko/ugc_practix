@@ -1,3 +1,8 @@
 #!/usr/bin/env bash
 
+echo "black output:"
 black --line-length 120 ./src
+
+echo ""
+echo "mypy output:"
+mypy ./src

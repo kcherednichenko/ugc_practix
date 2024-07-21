@@ -12,7 +12,7 @@ from api.v1 import filmworks
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
-    client = AsyncIOMotorClient(settings.mongo_host, settings.mongo_port)
+    client: AsyncIOMotorClient = AsyncIOMotorClient(settings.mongo_host, settings.mongo_port)
     await init_beanie(database=client[settings.mongo_db], document_models=[Filmwork, FilmworkScore])
     yield
     client.close()
