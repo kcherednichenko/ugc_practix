@@ -1,0 +1,47 @@
+[
+    // filmworks
+    {
+        "id": uuid,
+        "scores": [
+            {
+                "user_id": uuid,
+                "score": int
+            },
+            ...
+        ],
+        "reviews": [
+            {
+                "user_id": uuid,
+                "title": str,
+                "text": str,
+                "created_at": datetime,
+                "likes": [
+                    "user_id": uuid,
+                    ...
+                ]
+            },
+            ...
+        ],
+    }
+    // users
+    {
+        "id": uuid,
+        "reviews": [
+            {
+                "filmwork_id": uuid
+                "title": str,
+                "text": str,
+                "created_at": datetime,
+                "likes": [
+                    "user_id": uuid,
+                    ...
+                ]
+            },
+            ...
+        ]
+        "bookmarks": [
+            "filmwork_id": uuid,
+            ...
+        ]
+    }
+]
