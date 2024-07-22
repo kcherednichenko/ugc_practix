@@ -5,8 +5,8 @@ from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException, Response
 from pydantic import BaseModel
 
+from models.users import AuthenticatedUser
 from api.v1.dependencies import get_authenticated_user
-from models.users import User
 from services.filmworks import FilmworkService, get_filmwork_service
 
 router = APIRouter()
@@ -43,7 +43,7 @@ async def get_filmwork_average_score(
 async def add_score(
     filmwork_id: UUID,
     score_request: ScoreRequestBody,
-    user: Annotated[User, Depends(get_authenticated_user)],
+    user: Annotated[AuthenticatedUser, Depends(get_authenticated_user)],
     filmwork_service: Annotated[FilmworkService, Depends(get_filmwork_service)],
 ) -> ScoreResponseBody:
     await filmwork_service.upsert_user_score(filmwork_id, user.id, score_request.score)
@@ -53,7 +53,7 @@ async def add_score(
 @router.delete("/{filmwork_id}/score")
 async def delete_score(
     filmwork_id: UUID,
-    user: Annotated[User, Depends(get_authenticated_user)],
+    user: Annotated[AuthenticatedUser, Depends(get_authenticated_user)],
     filmwork_service: Annotated[FilmworkService, Depends(get_filmwork_service)],
 ) -> Response:
     await filmwork_service.delete_user_score(filmwork_id, user.id)

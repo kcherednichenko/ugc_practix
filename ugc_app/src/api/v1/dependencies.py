@@ -4,7 +4,7 @@ from typing import Annotated
 from fastapi import Depends, HTTPException, Request
 from fastapi.security import HTTPBearer
 
-from models.users import User
+from models.users import AuthenticatedUser
 from services.tokens import get_user_from_token
 
 
@@ -32,7 +32,7 @@ security_jwt = JWTBearer()
 
 def get_authenticated_user(
     token: Annotated[str, Depends(security_jwt)],
-) -> User:
+) -> AuthenticatedUser:
     user = get_user_from_token(token)
     if not user:
         raise HTTPException(status_code=HTTPStatus.UNAUTHORIZED, detail="Invalid token")
