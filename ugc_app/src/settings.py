@@ -12,5 +12,7 @@ class Settings(BaseSettings):
 
     jwt_public_key: bytes
 
+    sentry_dsn: str
+
 
 settings = Settings()  # type: ignore[call-arg]

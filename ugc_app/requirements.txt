@@ -7,3 +7,4 @@ beanie==1.26.0
 orjson==3.10.6
 black==24.4.2
 mypy==1.11.0
+sentry-sdk==2.10.0
