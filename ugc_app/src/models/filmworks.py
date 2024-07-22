@@ -5,13 +5,13 @@ from beanie import Document
 
 
 class FilmworkScore(Document):
-    id: UUID
+    id: UUID  # type: ignore[assignment]
     score: int
 
 
 class Filmwork(Document):
-    id: UUID
+    id: UUID  # type: ignore[assignment]
     scores: List[FilmworkScore]
 
-    class Settings:
+    class Settings:  # noqa: WPS431
         name = "filmworks"
