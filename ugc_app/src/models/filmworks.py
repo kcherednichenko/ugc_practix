@@ -13,5 +13,5 @@ class Filmwork(Document):
     id: UUID  # type: ignore[assignment]
     scores: List[FilmworkScore]
 
-    class Settings:
+    class Settings:  # noqa: WPS431
         name = "filmworks"

@@ -1,14 +1,13 @@
+from http import HTTPStatus
 from typing import Annotated
 from uuid import UUID
-from http import HTTPStatus
 
-from fastapi import APIRouter, Depends, Response, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Response
 from pydantic import BaseModel
 
-from models.users import User
 from api.v1.dependencies import get_authenticated_user
-from services.filmworks import get_filmwork_service, FilmworkService
-
+from models.users import User
+from services.filmworks import FilmworkService, get_filmwork_service
 
 router = APIRouter()
 
@@ -33,7 +32,10 @@ async def get_filmwork_average_score(
 ) -> AvgScoreResponseBody:
     avg_score = await filmwork_service.get_average_score(filmwork_id)
     if not avg_score:
-        raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail="filmwork not found or has no scores")
+        raise HTTPException(
+            status_code=HTTPStatus.NOT_FOUND,
+            detail="filmwork not found or has no scores",
+        )
     return AvgScoreResponseBody(avg_score=avg_score)
 
 
