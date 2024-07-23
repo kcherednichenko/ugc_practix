@@ -28,7 +28,7 @@ services:
       ES_HOST: "elasticsearch:9200"
     volumes:
       - ./logstash/logstash.conf:/config/logstash.conf:ro
-      - ./logs/ugc_app/:/var/log/ugc_app/
+      - ./logs/:/var/log/ugc_app/
     command: logstash -f /config/logstash.conf
     depends_on:
       elasticsearch:
