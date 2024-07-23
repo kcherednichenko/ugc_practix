@@ -28,9 +28,7 @@ sentry_sdk.init(
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
-    client: AsyncIOMotorClient = AsyncIOMotorClient(
-        settings.mongo_host, settings.mongo_port
-    )
+    client: AsyncIOMotorClient = AsyncIOMotorClient(settings.mongo_host, settings.mongo_port)
     await init_beanie(
         database=client[settings.mongo_db],
         document_models=[Filmwork, FilmworkScore, User],
@@ -55,9 +53,7 @@ app.add_middleware(CorrelationIdMiddleware)
 
 @app.exception_handler(Exception)
 async def exception_handler(request: Request, exc: Exception) -> ORJSONResponse:
-    logger.error(
-        "Exception has occurred when handled request to %s: %s", request.url, exc
-    )
+    logger.error("Exception has occurred when handled request to %s: %s", request.url, exc)
     return ORJSONResponse(
         status_code=HTTPStatus.INTERNAL_SERVER_ERROR,
         content={"detail": "internal server error"},
