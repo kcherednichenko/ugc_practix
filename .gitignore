@@ -10,3 +10,7 @@ __pycache__
 
 .mypy_cache
 service/
+
+research/.idea
+research/core/.env
+
