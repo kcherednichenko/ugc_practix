@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     jwt_public_key: bytes
 
     sentry_dsn: str
+    log_file: str
 
 
 settings = Settings()  # type: ignore[call-arg]
