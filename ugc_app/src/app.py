@@ -7,6 +7,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from fastapi import FastAPI, Request
 from fastapi.responses import ORJSONResponse
 import sentry_sdk
+from asgi_correlation_id import CorrelationIdMiddleware
 
 from models.filmworks import Filmwork, FilmworkScore
 from models.users import User
@@ -49,15 +50,7 @@ app.include_router(filmworks.router, prefix="/api/v1/filmworks", tags=["filmwork
 app.include_router(users.router, prefix="/api/v1/users", tags=["users"])
 
 
-@app.middleware("http")
-async def before_request(request: Request, call_next):
-    request_id = request.headers.get("X-Request-Id")
-    if not request_id:
-        return ORJSONResponse(
-            status_code=HTTPStatus.BAD_REQUEST,
-            content={"detail": "X-Request-Id is required"},
-        )
-    return await call_next(request)
+app.add_middleware(CorrelationIdMiddleware)
 
 
 @app.exception_handler(Exception)
