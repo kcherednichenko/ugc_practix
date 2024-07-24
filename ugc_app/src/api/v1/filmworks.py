@@ -1,5 +1,6 @@
+from datetime import datetime
 from http import HTTPStatus
-from typing import Annotated
+from typing import Annotated, List
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, Response
@@ -39,6 +40,15 @@ class ReviewResponseBody(BaseModel):
         from_attributes = True
 
 
+class FullReviewResponseBody(BaseModel):
+    id: UUID
+    filmwork_id: UUID
+    title: str
+    text: str
+    created_at: datetime
+    likes: List
+
+
 @router.get("/{filmwork_id}/average-score")
 async def get_filmwork_average_score(
     filmwork_id: UUID,
@@ -72,6 +82,19 @@ async def delete_score(
 ) -> Response:
     await filmwork_service.delete_user_score(filmwork_id, user.id)
     return Response(status_code=HTTPStatus.NO_CONTENT)
+
+
+@router.get("/{filmwork_id}/reviews")
+async def get_reviews(
+    filmwork_id: UUID,
+    filmwork_service: Annotated[FilmworkService, Depends(get_filmwork_service)],
+    order: str | None = None,
+) -> List[FullReviewResponseBody]:
+    reviews = await filmwork_service.get_reviews(filmwork_id, order)
+    full_reviews = []
+    for review in reviews:
+        full_reviews.append(FullReviewResponseBody(filmwork_id=filmwork_id, **review.__dict__))
+    return full_reviews
 
 
 @router.post("/{filmwork_id}/reviews")

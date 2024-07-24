@@ -1,4 +1,5 @@
 import datetime
+from typing import List
 from uuid import UUID
 
 from beanie.odm.operators.find.array import ElemMatch
@@ -37,6 +38,36 @@ class FilmworkService:
         await Filmwork.find_one(Filmwork.id == filmwork_id).update(
             Pull({Filmwork.scores: {FilmworkScore.id: user_id}}),
         )
+
+    async def get_reviews(self, filmwork_id: UUID, order: str | None) -> List:
+        if order == "created_at":
+            sorted_reviews = (
+                await Filmwork.find(Filmwork.id == filmwork_id)
+                .aggregate(
+                    [
+                        {"$unwind": "$reviews"},
+                        {"$sort": {"reviews.created_at": -1}},
+                        {"$project": {"reviews": "$reviews", "_id": 0, "id": "$reviews._id"}},
+                    ],
+                )
+                .to_list()
+            )
+            sorted_reviews = [FilmworkReview(**review["reviews"]) for review in sorted_reviews]
+
+        else:
+            sorted_reviews = (
+                await Filmwork.find(Filmwork.id == filmwork_id)
+                .aggregate(
+                    [
+                        {"$unwind": "$reviews"},
+                        {"$project": {"reviews": "$reviews", "_id": 0, "id": "$reviews._id"}},
+                    ],
+                )
+                .to_list()
+            )
+            sorted_reviews = [FilmworkReview(**review["reviews"]) for review in sorted_reviews]
+
+        return sorted_reviews
 
     async def upsert_review(self, filmwork_id: UUID, user_id: UUID, title: str, text: str) -> None:
         if not await self._has_review(filmwork_id, user_id):
