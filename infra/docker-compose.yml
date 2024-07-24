@@ -1,0 +1,39 @@
+include:
+  - ./docker-compose-elk.yml
+
+services:
+  mongodb:
+    image: mongo
+    expose:
+      - "27017"
+    volumes:
+      - mongo_data:/data/db
+
+  ugc_service:
+    build: ../ugc_app
+    expose:
+      - "8000"
+    env_file:
+      - ../ugc_app/.env
+    volumes:
+      - ugc_app_logs:/var/log/
+    depends_on:
+      - mongodb
+
+  ugc_nginx:
+    image: nginx:1.25.3
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ugc_app_nginx_logs:/var/log/nginx/
+    ports:
+      - "80:80"
+    expose:
+      - "80"
+    depends_on:
+      - ugc_service
+
+volumes:
+  mongo_data:
+  ugc_app_logs:
+  ugc_app_nginx_logs:
