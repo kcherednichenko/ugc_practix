@@ -5,8 +5,8 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
 
-from models.filmworks import Filmwork, FilmworkScore
-from models.users import User
+from models.filmworks import Filmwork, FilmworkScore, FilmworkReview
+from models.users import User, UserReview
 from settings import settings
 from api.v1 import filmworks, users
 
@@ -14,11 +14,11 @@ from api.v1 import filmworks, users
 @asynccontextmanager
 async def lifespan(_: FastAPI):
     client: AsyncIOMotorClient = AsyncIOMotorClient(
-        settings.mongo_host, settings.mongo_port
+        settings.mongo_host, settings.mongo_port, uuidRepresentation="standard"
     )
     await init_beanie(
         database=client[settings.mongo_db],
-        document_models=[Filmwork, FilmworkScore, User],
+        document_models=[Filmwork, FilmworkScore, FilmworkReview, User, UserReview],
     )
     yield
     client.close()
