@@ -52,14 +52,14 @@ class FilmworkService:
     async def like_review(self, filmwork_id: UUID, user_id: UUID, user_id_from_token: UUID) -> None:
         return await Filmwork.find_one(
             Filmwork.id == filmwork_id, ElemMatch(Filmwork.reviews, {"_id": user_id})
-        ).update({"$addToSet": {"reviews.$[x].likes": [user_id_from_token]}}, array_filters=[{"x._id": user_id}])
+        ).update({"$addToSet": {"reviews.$[x].likes": user_id_from_token}}, array_filters=[{"x._id": user_id}])
 
     async def delete_review_like(self, filmwork_id: UUID, user_id: UUID, user_id_from_token: UUID) -> None:
         await (
             Filmwork.find_one(
                 Filmwork.id == filmwork_id,
                 ElemMatch(Filmwork.reviews, {"_id": user_id})
-            ).update({"$pull": {"reviews.$[x].likes": [user_id_from_token]}}, array_filters=[{"x._id": user_id}])
+            ).update({"$pull": {"reviews.$[x].likes": user_id_from_token}}, array_filters=[{"x._id": user_id}])
         )
 
     async def _filmwork_already_scored_by_user(self, filmwork_id: UUID, user_id: UUID) -> bool:
