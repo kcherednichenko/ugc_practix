@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import List
 from uuid import UUID
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from beanie import Document
 
 
@@ -18,8 +18,7 @@ class UserReview(Document):
     created_at: datetime
     likes: List[UUID]
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class User(Document):

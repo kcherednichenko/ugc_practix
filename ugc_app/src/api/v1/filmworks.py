@@ -4,7 +4,7 @@ from typing import Annotated, List
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, Response
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 from models.users import AuthenticatedUser
 from api.v1.dependencies import get_authenticated_user
@@ -36,8 +36,7 @@ class ReviewResponseBody(BaseModel):
     title: str
     filmwork_id: UUID
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class FullReviewResponseBody(BaseModel):
