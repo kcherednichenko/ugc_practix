@@ -26,15 +26,9 @@ jobs:
         pip install -r requirements.txt
         pip install -r ./ugc_app/requirements.txt
 
-    - name: wemake-python-styleguide
-      uses: wemake-services/wemake-python-styleguide@0.19.2
-
     - name: Lint with flake8
       run: |
         flake8 ./ugc_app --format=html --htmldir=flake-report
-
-    - name: mypy action
-      uses: sasanquaneuf/mypy-github-action@releases/v1.3
 
     - name: Lint with mypy
       run: |
