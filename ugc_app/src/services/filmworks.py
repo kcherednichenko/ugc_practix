@@ -100,7 +100,7 @@ class FilmworkService:
         filmwork_score = FilmworkScore(id=user_id, score=score)
         await Filmwork.find_one(Filmwork.id == filmwork_id).upsert(
             AddToSet({Filmwork.scores: filmwork_score}),
-            on_insert=Filmwork(id=filmwork_id, scores=[filmwork_score], reviews=[]),
+            on_insert=Filmwork(id=filmwork_id, scores=[filmwork_score]),
         )
 
     async def _update_filmwork_score(self, filmwork_id: UUID, user_id: UUID, score: int) -> None:
@@ -117,7 +117,7 @@ class FilmworkService:
         )
         await Filmwork.find_one(Filmwork.id == filmwork_id).upsert(
             AddToSet({Filmwork.reviews: filmwork_review}),
-            on_insert=Filmwork(id=filmwork_id, reviews=[filmwork_review], scores=[]),
+            on_insert=Filmwork(id=filmwork_id, reviews=[filmwork_review]),
         )
 
     async def _update_review(self, filmwork_id: UUID, user_id: UUID, title: str, text: str) -> None:

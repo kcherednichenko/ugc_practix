@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import List
 from uuid import UUID
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from beanie import Document
 
 
@@ -24,8 +24,8 @@ class UserReview(Document):
 
 class User(Document):
     id: UUID  # type: ignore[assignment]
-    bookmarks: List[UUID]
-    reviews: List[UserReview]
+    bookmarks: List[UUID] = Field(default_factory=list)
+    reviews: List[UserReview] = Field(default_factory=list)
 
     class Settings:  # noqa: WPS431
         name = "users"
