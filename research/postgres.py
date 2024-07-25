@@ -104,5 +104,5 @@ def test_add_likes(db, count):
 
 def test_expected_value_postgres(db):
     res = db.query(Scores.filmwork_id, func.avg(Scores.score)).group_by(Scores.filmwork_id).all()
-    for r in res:
-        print(r)
+    for result in res:
+        print(result)
