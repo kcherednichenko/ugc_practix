@@ -18,11 +18,6 @@ class ScoreRequestBody(BaseModel):
     score: int
 
 
-class ScoreResponseBody(BaseModel):
-    score: int
-    filmwork_id: UUID
-
-
 class AvgScoreResponseBody(BaseModel):
     avg_score: float
 
@@ -68,9 +63,9 @@ async def add_score(
     score_request: ScoreRequestBody,
     user: Annotated[AuthenticatedUser, Depends(get_authenticated_user)],
     filmwork_service: Annotated[FilmworkService, Depends(get_filmwork_service)],
-) -> ScoreResponseBody:
+) -> Response:
     await filmwork_service.upsert_user_score(filmwork_id, user.id, score_request.score)
-    return ScoreResponseBody(score=score_request.score, filmwork_id=filmwork_id)
+    return Response(status_code=HTTPStatus.CREATED)
 
 
 @router.delete("/{filmwork_id}/score")

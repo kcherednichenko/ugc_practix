@@ -43,13 +43,13 @@ async def add_bookmark(
     return Response(status_code=HTTPStatus.CREATED)
 
 
-@router.delete("/bookmarks")
+@router.delete("/bookmarks/{filmwork_id}")
 async def delete_bookmark(
-    bookmark: UserBookmarkRequestBody,
+    filmwork_id: UUID,
     user: Annotated[AuthenticatedUser, Depends(get_authenticated_user)],
     user_service: Annotated[UserService, Depends(get_user_service)],
 ) -> Response:
-    await user_service.delete_bookmark(user.id, bookmark.filmwork_id)
+    await user_service.delete_bookmark(user.id, filmwork_id)
     return Response(status_code=HTTPStatus.NO_CONTENT)
 
 
