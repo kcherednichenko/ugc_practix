@@ -15,5 +15,7 @@ class Settings(BaseSettings):
     sentry_dsn: str
     log_file: str
 
+    enable_sentry: bool = False
+
 
 settings = Settings()  # type: ignore[call-arg]

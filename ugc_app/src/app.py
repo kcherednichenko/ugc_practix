@@ -19,11 +19,12 @@ setup_logging()
 logger = logging.getLogger(__name__)
 
 
-sentry_sdk.init(
-    dsn=settings.sentry_dsn,
-    traces_sample_rate=1.0,
-    profiles_sample_rate=1.0,
-)
+if settings.enable_sentry:
+    sentry_sdk.init(
+        dsn=settings.sentry_dsn,
+        traces_sample_rate=1.0,
+        profiles_sample_rate=1.0,
+    )
 
 
 @asynccontextmanager
