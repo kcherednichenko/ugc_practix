@@ -2,7 +2,7 @@ include:
   - ./docker-compose-elk.yml
 
 services:
-  mongodb:
+  mongodb:7.0.12
     image: mongo
     expose:
       - "27017"
