@@ -31,14 +31,14 @@ jobs:
 
     - name: Lint with flake8
       run: |
-        flake8 . --format=html --htmldir=flake-report
+        flake8 ./ugc_app --format=html --htmldir=flake-report
 
     - name: mypy action
       uses: sasanquaneuf/mypy-github-action@releases/v1.3
 
     - name: Lint with mypy
       run: |
-        mypy .
+        mypy ./ugc_app
 
     - uses: yanzay/notify-telegram@v0.1.0
       if: always()
