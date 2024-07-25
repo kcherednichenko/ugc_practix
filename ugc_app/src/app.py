@@ -9,8 +9,8 @@ from fastapi.responses import ORJSONResponse
 import sentry_sdk
 from asgi_correlation_id import CorrelationIdMiddleware
 
-from models.filmworks import Filmwork, FilmworkScore
-from models.users import User
+from models.filmworks import Filmwork, FilmworkScore, FilmworkReview
+from models.users import User, UserReview
 from settings import settings
 from loggers import setup_logging
 from api.v1 import filmworks, users
@@ -28,10 +28,12 @@ sentry_sdk.init(
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
-    client: AsyncIOMotorClient = AsyncIOMotorClient(settings.mongo_host, settings.mongo_port)
+    client: AsyncIOMotorClient = AsyncIOMotorClient(
+        settings.mongo_host, settings.mongo_port, uuidRepresentation="standard"
+    )
     await init_beanie(
         database=client[settings.mongo_db],
-        document_models=[Filmwork, FilmworkScore, User],
+        document_models=[Filmwork, FilmworkScore, FilmworkReview, User, UserReview],
     )
     yield
     client.close()
