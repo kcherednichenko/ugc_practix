@@ -19,9 +19,7 @@ def get_user_from_token(token: str) -> AuthenticatedUser | None:
 
 
 def _decode_token(token: str) -> "_TokenPayload":
-    return _TokenPayload(
-        **jwt.decode(token, settings.jwt_public_key, algorithms=[_ALGORITHM])
-    )
+    return _TokenPayload(**jwt.decode(token, settings.jwt_public_key, algorithms=[_ALGORITHM]))
 
 
 class _TokenPayload(BaseModel):

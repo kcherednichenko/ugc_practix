@@ -4,13 +4,11 @@ env/
 
 # IDE
 .vscode
+.idea
 
 __pycache__
 
 
 .mypy_cache
 service/
-
-research/.idea
-research/core/.env
-
+logs/
