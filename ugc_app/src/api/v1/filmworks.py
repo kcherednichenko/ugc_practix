@@ -98,10 +98,10 @@ async def add_review(
     user: Annotated[AuthenticatedUser, Depends(get_authenticated_user)],
     filmwork_service: Annotated[FilmworkService, Depends(get_filmwork_service)],
     user_service: Annotated[UserService, Depends(get_user_service)],
-) -> ReviewResponseBody:
+) -> Response:
     await filmwork_service.upsert_review(filmwork_id, user.id, review_request.title, review_request.text)
     await user_service.upsert_review(filmwork_id, user.id, review_request.title, review_request.text)
-    return ReviewResponseBody(title=review_request.title, filmwork_id=filmwork_id)
+    return Response(status_code=HTTPStatus.CREATED)
 
 
 @router.delete("/{filmwork_id}/reviews")

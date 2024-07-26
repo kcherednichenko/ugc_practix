@@ -1,3 +1,4 @@
 wemake-python-styleguide==0.19.2
 mypy==1.11.0
 flake8-html==0.4.3
+pytest==8.3.2
