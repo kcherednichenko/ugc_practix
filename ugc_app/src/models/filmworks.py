@@ -3,6 +3,7 @@ from typing import List
 from uuid import UUID
 
 from beanie import Document
+from pydantic import Field, ConfigDict
 
 
 class FilmworkScore(Document):
@@ -17,14 +18,13 @@ class FilmworkReview(Document):
     created_at: datetime
     likes: List[UUID]
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class Filmwork(Document):
     id: UUID  # type: ignore[assignment]
-    scores: List[FilmworkScore]
-    reviews: List[FilmworkReview]
+    scores: List[FilmworkScore] = Field(default_factory=list)
+    reviews: List[FilmworkReview] = Field(default_factory=list)
 
     class Settings:  # noqa: WPS431
         name = "filmworks"

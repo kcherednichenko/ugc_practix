@@ -4,7 +4,7 @@ from typing import Annotated, List
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, Response
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 from models.users import AuthenticatedUser
 from api.v1.dependencies import get_authenticated_user
@@ -16,11 +16,6 @@ router = APIRouter()
 
 class ScoreRequestBody(BaseModel):
     score: int
-
-
-class ScoreResponseBody(BaseModel):
-    score: int
-    filmwork_id: UUID
 
 
 class AvgScoreResponseBody(BaseModel):
@@ -36,8 +31,7 @@ class ReviewResponseBody(BaseModel):
     title: str
     filmwork_id: UUID
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class FullReviewResponseBody(BaseModel):
@@ -69,9 +63,9 @@ async def add_score(
     score_request: ScoreRequestBody,
     user: Annotated[AuthenticatedUser, Depends(get_authenticated_user)],
     filmwork_service: Annotated[FilmworkService, Depends(get_filmwork_service)],
-) -> ScoreResponseBody:
+) -> Response:
     await filmwork_service.upsert_user_score(filmwork_id, user.id, score_request.score)
-    return ScoreResponseBody(score=score_request.score, filmwork_id=filmwork_id)
+    return Response(status_code=HTTPStatus.CREATED)
 
 
 @router.delete("/{filmwork_id}/score")

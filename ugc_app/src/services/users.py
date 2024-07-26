@@ -21,7 +21,7 @@ class UserService:
         logger.info("Upserting bookmark %s for user %s", filmwork_id, user_id)
         await User.find_one(User.id == user_id).upsert(
             AddToSet({User.bookmarks: filmwork_id}),
-            on_insert=User(id=user_id, bookmarks=[filmwork_id], reviews=[]),
+            on_insert=User(id=user_id, bookmarks=[filmwork_id]),
         )
 
     async def delete_bookmark(self, user_id: UUID, filmwork_id: UUID) -> None:
@@ -74,7 +74,7 @@ class UserService:
         )
         await User.find_one(User.id == user_id).upsert(
             AddToSet({User.reviews: user_review}),
-            on_insert=User(id=user_id, reviews=[user_review], bookmarks=[]),
+            on_insert=User(id=user_id, reviews=[user_review]),
         )
 
     async def _update_review(self, filmwork_id: UUID, user_id: UUID, title: str, text: str) -> None:
