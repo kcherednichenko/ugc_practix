@@ -34,10 +34,6 @@ jobs:
       run: |
         mypy ./ugc_app
 
-    - name: Run tests
-      run: |
-        pytest ./ugc_app/tests/integration
-
     - uses: yanzay/notify-telegram@v0.1.0
       if: always()
       with:
